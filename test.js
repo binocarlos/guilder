@@ -4,9 +4,11 @@ var Guilder = require('./')
 tape('scaffold a new project', function(t){
 
 	var projectSource = __dirname + '/test/project'
-	var buildTarget = __dirname = '/test/output'
+	var buildTarget = __dirname + '/test/output'
 
 	var project = Guilder(projectSource)
+
+	project.on('log', console.log)
 
 	Guilder.run([
 

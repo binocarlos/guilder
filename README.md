@@ -40,7 +40,7 @@ build.on('log', function(st){
 })
 
 // run through build steps in series
-Guilder.run([
+Guilder.series([
 
 	function(next){
 		// do something custom
@@ -76,9 +76,13 @@ Guilder.run([
 
 Create a new project from a source template
 
-### `Guilder.run(functionArray)`
+### `Guilder.parallel`
 
-Run a series of functions in series - this is a wrapper for async.series
+Proxy to [async.parallel](https://github.com/caolan/async#parallel)
+
+### `Guilder.series`
+
+Proxy to [async.series](https://github.com/caolan/async#seriestasks-callback)
 
 ### `project.installComponent(autoReset)`
 

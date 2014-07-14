@@ -6,6 +6,7 @@ var mergedirs = require('merge-dirs')
 var Componenter = require('componenter')
 var globby = require('globby')
 var fs = require('fs')
+var resize = require('imagemagickresizer')()
 
 function Project(src){
 	if (!(this instanceof Project)) return new Project(src)
@@ -59,15 +60,40 @@ Project.prototype.mergeFolder = function(folder, dest){
 	}
 }
 
-Project.prototype.resizeImages = function(src, size, dest){
+Project.prototype.resizeImages = function(src, size, getDestination){
 	var self = this;
+	getDestination = getDestination || function(dest){
+		return dest
+	}
 	return function(next){
 		if(typeof(src)=='string'){
 			src = [src]
 		}
+		if(typeof(size)=='string'){
+			var sizes = size.split('x')
+			size = {
+				width:parseInt(sizes[0]),
+				height:parseInt(sizes[1])
+			}
+		}
 		globby(src, function(err, files){
-			console.log('-------------------------------------------');
-			console.dir(files)
+
+			async.forEach(files, function(file, nextFile){
+
+				self.emit('log', 'resize image: ' + file)
+
+				var fileSrc = path.join(self._src, file)
+				var fileDest = path.join(dest, getDestination(file))
+				var folder = path.dirname(fileDest)
+
+				// this is bad and blocking - upgrade will be nice to have async folder creation
+				// cli use means we can get away with it for now
+				wrench.mkdirSyncRecursive(folder, true)
+
+				resize.image(fileSrc, fileDest, size, nextFile)
+
+			}, next)
+
 		})
 		
 		

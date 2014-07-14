@@ -31,6 +31,7 @@ tape('scaffold a new project', function(t){
 
 			t.ok(fs.existsSync(path.join(projectSource, 'components')), 'src components')
 			t.ok(fs.existsSync(path.join(projectSource, 'build')), 'src build')
+			t.ok(fs.existsSync(path.join(buildTarget, 'css')), 'target css')
 			t.ok(fs.existsSync(path.join(buildTarget, 'build')), 'target build')
 			t.end()
 		}

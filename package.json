@@ -27,11 +27,9 @@
     "tape": "^2.13.3"
   },
   "dependencies": {
-    "component": "^0.19.9",
     "async": "^0.9.0",
     "wrench": "^1.5.8",
-    "through2": "^0.5.1",
-    "split": "^0.3.0",
-    "merge-dirs": "0.0.2"
+    "merge-dirs": "^0.0.2",
+    "componenter": "^0.0.1"
   }
 }

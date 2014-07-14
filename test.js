@@ -9,12 +9,12 @@ var projectSource = path.normalize(__dirname + '/test/project')
 var buildTarget = path.normalize(__dirname + '/test/output')
 
 tape('reset and clear folder', function(t){
-	var project = Guilder(projectSource)
+	var project = Guilder(projectSource, buildTarget)
 
 
 	Guilder.series([
 
-		project.ensureFolder(buildTarget, true)
+		project.ensureFolder(true)
 
 	], function(err){
 
@@ -42,7 +42,7 @@ tape('reset and clear folder', function(t){
 
 tape('scaffold a new project', function(t){
 
-	var project = Guilder(projectSource)
+	var project = Guilder(projectSource, buildTarget)
 
 	project.on('log', console.log)
 
@@ -50,9 +50,8 @@ tape('scaffold a new project', function(t){
 
 		project.installComponent(true),
 		project.buildComponent(true),
-		project.ensureFolder(buildTarget, true),
-		project.mergeFolder('css', buildTarget),
-		project.mergeFolder('build', buildTarget)
+		project.ensureFolder(true),
+		project.copy(['css/**', 'build/**'])
 
 	], function(err){
 
@@ -74,14 +73,14 @@ tape('scaffold a new project', function(t){
 
 tape('resize some images', function(t){
 
-	var project = Guilder(projectSource)
+	var project = Guilder(projectSource, buildTarget)
 
 	project.on('log', console.log)
 
 	Guilder.series([
 
-		project.ensureFolder(buildTarget, true),
-		project.resizeImages('img/**', '100x100', buildTarget, function(path){
+		project.ensureFolder(true),
+		project.resizeImages('img/**', '100x100', function(path){
 			if(path.match(/car/)){
 				return 'otherfolder/car.jpg'
 			}
@@ -108,6 +107,41 @@ tape('resize some images', function(t){
 			t.equal(dimensions.width, 100, '100 width')
 			t.equal(dimensions.height, 100, '100 height')
 
+			t.end()
+		}
+	})
+
+})
+
+
+tape('write some data', function(t){
+
+	var project = Guilder(projectSource, buildTarget)
+
+	project.on('log', console.log)
+
+	Guilder.series([
+
+		project.ensureFolder(true),
+		project.write('data/2/hello.txt', 'world')
+
+	], function(err){
+
+		if(err){
+			t.fail(err, 'run')
+			t.end()
+			return
+		}
+		else{
+
+			var data = path.join(buildTarget, 'data/2/hello.txt')
+			
+			t.ok(fs.existsSync(data), 'data exists')
+
+			var content = fs.readFileSync(data, 'utf8')
+
+			t.equal(content, 'world', 'content equals')
+			
 			t.end()
 		}
 	})

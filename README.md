@@ -32,10 +32,11 @@ var source = __dirname + '/gametemplate'
 var dest = __dirname + '/dist/test'
 
 // create a project from the source template and the destination folder
-var build = Guilder(source)
+// everything from here becomes relative
+var project = Guilder(source, dest)
 
 // handle logging
-build.on('log', function(st){
+project.on('log', function(st){
 	console.log(st)
 })
 
@@ -48,16 +49,25 @@ Guilder.series([
 	},
 
 	// install the component in the source folder with autoReset = true
-	build.installComponent(true),
+	project.installComponent(true),
+
+	// install the component in the source folder with autoReset = true
+	project.buildComponent(true),
 
 	// this will create the destination folder with autoRemove = true
-	build.ensureFolder(dest, true),
+	project.ensureFolder(true),
 
 	// copy files using globs
-	build.mergeFolder('css', dest),
+	project.copy('css/**', function(path){
+		// you can alter the copy path here
+		return path
+	}),
 
 	// resize images
-	build.resizeImages('img/*.png', '590x600', dest)
+	project.resizeImages('img/*.png', '590x600', function(path){
+		// you can alter the copy path here
+		return path
+	})
 
 ], function(error){
 	if(error){
@@ -96,11 +106,26 @@ Ensure a folder exists - autoRemove will delete if it exists
 
 Copy each file matching the srcGlob into the dest folder
 
-### `project.resizeImages(srcGlob, size, destFolder)`
+### `project.resizeImages(srcGlob, size, destFolder, [mapPath])`
 
 Resize images matching the glob into the destination location
 
 Size is an object with width and height properties or a string of the format '[width]x[height]'
+
+mapPath is an optional function that can remap the destination path for the image
+
+```js
+project.resizeImages('img/**', '100x100', buildTarget, function(path){
+	if(path.match(/car/)){
+		return 'otherfolder/car.jpg'
+	}
+	else{
+		return path
+	}
+})
+```
+
+### `project.writeTemplate(src, dest, data)`
 
 ## events
 

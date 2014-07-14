@@ -17,9 +17,11 @@ tape('scaffold a new project', function(t){
 		project.installComponent(true),
 		project.buildComponent(true),
 		project.ensureFolder(buildTarget, true),
-		project.copyFiles(['css/*', 'build/*'], buildTarget)
+		project.mergeFolder('css', buildTarget),
+		project.mergeFolder('build', buildTarget)
 
 	], function(err){
+
 		if(err){
 			t.fail(err, 'run')
 			t.end()

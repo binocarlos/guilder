@@ -1,11 +1,12 @@
 var EventEmitter = require('events').EventEmitter
 var util = require('util')
 var path = require('path')
+var mergedirs = require('merge-dirs')
 var cp = require('child_process')
 var wrench = require('wrench')
 var through = require('through2')
 var split = require('split')
-var cpy = require('cpy')
+var fs = require('fs')
 
 function Project(src){
 	if (!(this instanceof Project)) return new Project(src)
@@ -89,12 +90,14 @@ Project.prototype.ensureFolder = function(dest, autoRemove){
 	}
 }
 
-Project.prototype.copyFiles = function(src, dest){
+Project.prototype.mergeFolder = function(folder, dest){
 	var self = this;
-	if(typeof src === 'string') src = [src]
 	return function(next){
-		self.emit('log', 'copy files: ' + src)
-		cpy(src, dest, next)
+
+		self.emit('log', 'merge folder: ' + folder)
+		mergedirs(path.join(self._src, folder), path.join(dest, folder))
+		next()
+
 	}
 }
 

@@ -54,10 +54,10 @@ Guilder.run([
 	build.ensureFolder(dest, true),
 
 	// copy files using globs
-	build.copyFiles(['css/*.css', 'build/*'], dest),
+	build.mergeFolder('css', dest),
 
 	// resize images
-	build.resizeImages(['img/*.png'], '590x600', dest)
+	build.resizeImages('img/*.png', '590x600', dest)
 
 ], function(error){
 	if(error){

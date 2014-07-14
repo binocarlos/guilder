@@ -5,6 +5,7 @@ var cp = require('child_process')
 var wrench = require('wrench')
 var through = require('through2')
 var split = require('split')
+var cpy = require('cpy')
 
 function Project(src){
 	if (!(this instanceof Project)) return new Project(src)
@@ -26,7 +27,7 @@ Project.prototype.installComponent = function(autoRemove){
 
 		self.emit('log', 'install component: ' + self._src)
 		var install = cp.spawn('node', [
-			__dirname + '/node_modules/component/bin/component-install',
+			path.resolve(__dirname + '/node_modules/component/bin/component-install'),
 			'-v'
 		], {
 			stdio:'pipe',
@@ -55,13 +56,14 @@ Project.prototype.buildComponent = function(autoRemove){
 
 		self.emit('log', 'build component: ' + self._src)
 		var build = cp.spawn('node', [
-			__dirname + '/node_modules/component/bin/component-build',
+			path.resolve(__dirname + '/node_modules/component/bin/component-build'),
 			'-v'
 		], {
 			stdio:'pipe',
 			cwd:self._src
 		})
 
+		build.stderr.pipe(process.stderr)
 		build.stdout
 			.pipe(split())
 			.pipe(through(function(chunk, env, cnext){
@@ -89,9 +91,10 @@ Project.prototype.ensureFolder = function(dest, autoRemove){
 
 Project.prototype.copyFiles = function(src, dest){
 	var self = this;
+	if(typeof src === 'string') src = [src]
 	return function(next){
 		self.emit('log', 'copy files: ' + src)
-		next()
+		cpy(src, dest, next)
 	}
 }
 

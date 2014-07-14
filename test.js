@@ -8,7 +8,6 @@ var sizeOf = require('image-size')
 var projectSource = path.normalize(__dirname + '/test/project')
 var buildTarget = path.normalize(__dirname + '/test/output')
 
-/*
 tape('reset and clear folder', function(t){
 	var project = Guilder(projectSource)
 
@@ -73,7 +72,6 @@ tape('scaffold a new project', function(t){
 	})
 })
 
-*/
 tape('resize some images', function(t){
 
 	var project = Guilder(projectSource)

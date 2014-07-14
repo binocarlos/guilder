@@ -61,9 +61,9 @@ Project.prototype.mergeFolder = function(folder, dest){
 	}
 }
 
-Project.prototype.resizeImages = function(src, size, getDestination){
+Project.prototype.resizeImages = function(src, size, dest, processPath){
 	var self = this;
-	getDestination = getDestination || function(dest){
+	processPath = processPath || function(dest){
 		return dest
 	}
 	return function(next){
@@ -77,14 +77,20 @@ Project.prototype.resizeImages = function(src, size, getDestination){
 				height:parseInt(sizes[1])
 			}
 		}
-		globby(src, function(err, files){
+		globby(src, {
+			cwd:self._src
+		}, function(err, files){
 
+			files = files.filter(function(f){
+				return f.match(/\.\w+$/)
+			})
+			
 			async.forEach(files, function(file, nextFile){
 
 				self.emit('log', 'resize image: ' + file)
 
 				var fileSrc = path.join(self._src, file)
-				var fileDest = path.join(dest, getDestination(file))
+				var fileDest = path.join(dest, processPath(file))
 				var folder = path.dirname(fileDest)
 
 				// this is bad and blocking - upgrade will be nice to have async folder creation

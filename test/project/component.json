@@ -1,0 +1,12 @@
+{
+  "name": "guilder-test-component",
+  "description": "A component to test guilder",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ],
+  "dependencies": {
+    "component/emitter":"*"
+  }
+}

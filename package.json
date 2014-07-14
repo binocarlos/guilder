@@ -1,0 +1,32 @@
+{
+  "name": "guilder",
+  "version": "0.0.0",
+  "description": "HTML5 app builder for g's",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/binocarlos/guilder.git"
+  },
+  "keywords": [
+    "project",
+    "builder",
+    "scaffold",
+    "template",
+    "html5"
+  ],
+  "author": "Kai Davenport",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/binocarlos/guilder/issues"
+  },
+  "homepage": "https://github.com/binocarlos/guilder",
+  "devDependencies": {
+    "tape": "^2.13.3"
+  },
+  "dependencies": {
+    "component": "^0.19.9"
+  }
+}

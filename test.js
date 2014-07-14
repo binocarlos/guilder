@@ -96,5 +96,4 @@ tape('resize some images', function(t){
 		}
 	})
 
-	t.end()
 })

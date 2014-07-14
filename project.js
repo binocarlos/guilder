@@ -1,6 +1,7 @@
 var EventEmitter = require('events').EventEmitter
 var util = require('util')
 var path = require('path')
+var async = require('async')
 var wrench = require('wrench')
 var mergedirs = require('merge-dirs')
 var Componenter = require('componenter')

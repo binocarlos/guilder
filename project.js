@@ -4,6 +4,7 @@ var path = require('path')
 var wrench = require('wrench')
 var mergedirs = require('merge-dirs')
 var Componenter = require('componenter')
+var globby = require('globby')
 var fs = require('fs')
 
 function Project(src){
@@ -61,7 +62,14 @@ Project.prototype.mergeFolder = function(folder, dest){
 Project.prototype.resizeImages = function(src, size, dest){
 	var self = this;
 	return function(next){
-		self.emit('log', 'resize images: ' + src + ' ' + size)
-		next()	
+		if(typeof(src)=='string'){
+			src = [src]
+		}
+		globby(src, function(err, files){
+			console.log('-------------------------------------------');
+			console.dir(files)
+		})
+		
+		
 	}
 }

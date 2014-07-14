@@ -21,7 +21,7 @@ Project.prototype.installComponent = function(autoRemove){
 	return function(next){
 		if(autoRemove){
 			self.emit('log', 'remove folder: ' + self._src + '/components')
-			wrench.rmdirSyncRecursive(self._src + '/components')
+			wrench.rmdirSyncRecursive(self._src + '/components', true)
 		}
 
 		self.emit('log', 'install component: ' + self._src)
@@ -50,7 +50,7 @@ Project.prototype.buildComponent = function(autoRemove){
 	return function(next){
 		if(autoRemove){
 			self.emit('log', 'remove folder: ' + self._src + '/build')
-			wrench.rmdirSyncRecursive(self._src + '/build')
+			wrench.rmdirSyncRecursive(self._src + '/build', true)
 		}
 
 		self.emit('log', 'build component: ' + self._src)

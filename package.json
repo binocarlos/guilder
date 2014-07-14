@@ -1,6 +1,6 @@
 {
   "name": "guilder",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "HTML5 app builder for g's",
   "main": "index.js",
   "scripts": {

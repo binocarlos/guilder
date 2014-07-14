@@ -12,7 +12,7 @@ tape('scaffold a new project', function(t){
 
 		project.installComponent(true),
 		project.ensureFolder(buildTarget, true),
-		project.copy('css/*', buildTarget)
+		project.copyFiles('css/*', buildTarget)
 
 	], function(err){
 		if(err){

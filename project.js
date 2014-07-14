@@ -78,8 +78,10 @@ Project.prototype.ensureFolder = function(dest, autoRemove){
 	var self = this;
 	return function(next){
 		if(autoRemove){
+			self.emit('log', 'remove folder: ' + dest)
 			wrench.rmdirSyncRecursive(dest, true)
 		}
+		self.emit('log', 'create folder: ' + dest)
 		wrench.mkdirSyncRecursive(dest, true)
 		next()
 	}
@@ -88,13 +90,15 @@ Project.prototype.ensureFolder = function(dest, autoRemove){
 Project.prototype.copyFiles = function(src, dest){
 	var self = this;
 	return function(next){
-		
+		self.emit('log', 'copy files: ' + src)
+		next()
 	}
 }
 
 Project.prototype.resizeImages = function(src, size, dest){
 	var self = this;
 	return function(next){
-		
+		self.emit('log', 'resize images: ' + src + ' ' + size)
+		next()	
 	}
 }

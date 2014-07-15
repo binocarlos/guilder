@@ -9,6 +9,7 @@ A project builder for g's
 $ npm install guilder
 ```
 
+For the image resizing you need [ImageMagick](http://www.imagemagick.org/) on your system
 ## usage
 
 guilder is a toolkit for scaffolding and building projects using source template folders.

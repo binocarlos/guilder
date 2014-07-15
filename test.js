@@ -40,36 +40,6 @@ tape('reset and clear folder', function(t){
 
 })
 
-tape('scaffold a new project', function(t){
-
-	var project = Guilder(projectSource, buildTarget)
-
-	project.on('log', console.log)
-
-	Guilder.series([
-
-		project.installComponent(true),
-		project.buildComponent(true),
-		project.ensureFolder(true),
-		project.copy(['css/**', 'build/**'])
-
-	], function(err){
-
-		if(err){
-			t.fail(err, 'run')
-			t.end()
-			return
-		}
-		else{
-
-			t.ok(fs.existsSync(path.join(projectSource, 'components')), 'src components')
-			t.ok(fs.existsSync(path.join(projectSource, 'build')), 'src build')
-			t.ok(fs.existsSync(path.join(buildTarget, 'css')), 'target css')
-			t.ok(fs.existsSync(path.join(buildTarget, 'build')), 'target build')
-			t.end()
-		}
-	})
-})
 
 tape('resize some images', function(t){
 
@@ -146,4 +116,35 @@ tape('write some data', function(t){
 		}
 	})
 
+})
+
+tape('scaffold a new project', function(t){
+
+	var project = Guilder(projectSource, buildTarget)
+
+	project.on('log', console.log)
+
+	Guilder.series([
+
+		project.installComponent(true),
+		project.buildComponent(true),
+		project.ensureFolder(true),
+		project.copy(['css/**', 'build/**'])
+
+	], function(err){
+
+		if(err){
+			t.fail(err, 'run')
+			t.end()
+			return
+		}
+		else{
+
+			t.ok(fs.existsSync(path.join(projectSource, 'components')), 'src components')
+			t.ok(fs.existsSync(path.join(projectSource, 'build')), 'src build')
+			t.ok(fs.existsSync(path.join(buildTarget, 'css')), 'target css')
+			t.ok(fs.existsSync(path.join(buildTarget, 'build')), 'target build')
+			t.end()
+		}
+	})
 })

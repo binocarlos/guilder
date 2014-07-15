@@ -36,7 +36,7 @@ Project.prototype.buildComponent = function(autoRemove){
 	var self = this;
 	return function(next){
 		var project = Componenter(self._src)
-		project.install(autoRemove, next)
+		project.build(autoRemove, next)
 	}
 }
 

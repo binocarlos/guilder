@@ -85,38 +85,38 @@ Guilder.series([
 
 ## api
 
-### `var project = Guilder(source)`
+#### `var project = Guilder(source)`
 
 Create a new project from a source template
 
-### `Guilder.parallel`
+#### `Guilder.parallel`
 
 Proxy to [async.parallel](https://github.com/caolan/async#parallel)
 
-### `Guilder.series`
+#### `Guilder.series`
 
 Proxy to [async.series](https://github.com/caolan/async#seriestasks-callback)
 
 
-### `project.ensureFolder(path, autoRemove)`
+#### `project.ensureFolder(path, autoRemove)`
 
 Ensure a folder exists - autoRemove will delete if it exists
 
-### `project.installComponent(autoReset)`
+#### `project.installComponent(autoReset)`
 
 Create the folder in the destination location - autoReset means delete if exists
 
-### `project.buildComponent(autoReset)`
+#### `project.buildComponent(autoReset)`
 
 Create the folder in the destination location - autoReset means delete if exists
 
-### `project.copy(srcGlob, [processPath])`
+#### `project.copy(srcGlob, [processPath])`
 
 Copy each file matching the srcGlob into the dest folder
 
 processPath is a map function that lets you change the target location of each file
 
-### `project.resizeImages(srcGlob, size, [processPath])`
+#### `project.resizeImages(srcGlob, size, [processPath])`
 
 Resize images matching the glob into the destination location
 
@@ -135,13 +135,13 @@ project.resizeImages('img/**', '100x100', function(path){
 })
 ```
 
-### `project.load(path)`
+#### `project.load(path)`
 
 Load a 'utf8' encoded text file to the file at source/[path]
 
 This is useful for loading templates and other text data from the source template
 
-### `project.write(path, data)`
+#### `project.write(path, data)`
 
 Write a 'utf8' encoded text file to the file at dest/[path]
 
@@ -149,7 +149,7 @@ This is useful for writing templates and other data
 
 ## events
 
-### `project.on('log', function(string){})`
+#### `project.on('log', function(string){})`
 
 The logs are emitted to be handled in a custom way
 

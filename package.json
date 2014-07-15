@@ -30,7 +30,7 @@
   "dependencies": {
     "async": "^0.9.0",
     "wrench": "^1.5.8",
-    "componenter": "^0.0.1",
+    "componenter": "^0.0.2",
     "imagemagickresizer": "^1.0.1",
     "globby": "^0.1.1",
     "cp-file": "^0.1.1"

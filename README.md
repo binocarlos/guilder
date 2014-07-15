@@ -22,7 +22,7 @@ It has tools for the following jobs:
 
 You use it as a library in custom build scripts:
 
-```
+```js
 var Guilder = require('guilder')
 
 // where does the app template live

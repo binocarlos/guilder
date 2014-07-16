@@ -98,6 +98,9 @@ Proxy to [async.parallel](https://github.com/caolan/async#parallel)
 
 Proxy to [async.series](https://github.com/caolan/async#seriestasks-callback)
 
+#### `Guilder.copy(srcFolder, glob, destFolder)`
+
+Static version of copy where you can pass the source and destination folders explicitly
 
 #### `project.ensureFolder(path, autoRemove)`
 

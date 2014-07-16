@@ -10,6 +10,33 @@ var fs = require('fs')
 var resize = require('imagemagickresizer')()
 var cpFile = require('cp-file')
 
+function runCopy(srcFolder, glob, destFolder, emitter, processPath, done){
+	if(typeof(glob)=='string'){
+		glob = [glob]
+	}
+	globby(glob, {
+		cwd:srcFolder
+	}, function(err, files){
+
+		files = files.filter(function(f){
+			return f.match(/\.\w+$/)
+		})
+		
+		async.forEach(files, function(file, nextFile){
+
+			emitter('copy: ' + file)
+
+			var fileSrc = path.join(srcFolder, file)
+			var fileDest = path.join(destFolder, processPath(file))
+
+			cpFile(fileSrc, fileDest, nextFile)
+
+		}, done)
+
+	})
+}
+		
+
 function Project(src, dest){
 	if (!(this instanceof Project)) return new Project(src, dest)
 	EventEmitter.call(this)
@@ -19,6 +46,11 @@ function Project(src, dest){
 
 Project.series = async.series
 Project.parallel = async.parallel
+Project.copy = function(src, glob, dest){
+	return function(next){
+		runCopy(src, glob, dest, function(log){}, null, next)
+	}
+}
 
 util.inherits(Project, EventEmitter)
 
@@ -64,36 +96,15 @@ Project.prototype.write = function(target, data){
 	}
 }
 
-Project.prototype.copy = function(src, processPath){
+Project.prototype.copy = function(glob, processPath){
 	var self = this;
 	processPath = processPath || function(dest){
 		return dest
 	}
 	return function(next){
-		if(typeof(src)=='string'){
-			src = [src]
-		}
-		globby(src, {
-			cwd:self._src
-		}, function(err, files){
-
-			files = files.filter(function(f){
-				return f.match(/\.\w+$/)
-			})
-			
-			async.forEach(files, function(file, nextFile){
-
-				self.emit('log', 'copy: ' + file)
-
-				var fileSrc = path.join(self._src, file)
-				var fileDest = path.join(self._dest, processPath(file))
-
-				cpFile(fileSrc, fileDest, nextFile)
-
-			}, next)
-
-		})
-
+		runCopy(self._src, glob, self._dest, function(log){
+			self.emit('log', log)
+		}, processPath, next)
 	}
 }
 

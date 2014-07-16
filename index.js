@@ -111,6 +111,18 @@ Project.prototype.copy = function(glob, processPath){
 	}
 }
 
+Project.prototype.manualCopy = function(srcFolder, glob, destFolder, processPath){
+	var self = this;
+	processPath = processPath || function(dest){
+		return dest
+	}
+	return function(next){
+		runCopy(self._src, glob, self._dest, function(log){
+			self.emit('log', log)
+		}, processPath, next)
+	}
+}
+
 Project.prototype.resizeImages = function(src, size, processPath){
 	var self = this;
 	processPath = processPath || function(dest){

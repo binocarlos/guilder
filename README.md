@@ -120,6 +120,10 @@ Copy each file matching the srcGlob into the dest folder
 
 processPath is a map function that lets you change the target location of each file
 
+#### `project.manualCopy(srcFolder, srcGlob, destFolder, [processPath])`
+
+The same as copy but you get to specific the source and destination folders
+
 #### `project.resizeImages(srcGlob, size, [processPath])`
 
 Resize images matching the glob into the destination location

@@ -117,7 +117,7 @@ Project.prototype.manualCopy = function(srcFolder, glob, destFolder, processPath
 		return dest
 	}
 	return function(next){
-		runCopy(self._src, glob, self._dest, function(log){
+		runCopy(srcFolder, glob, destFolder, function(log){
 			self.emit('log', log)
 		}, processPath, next)
 	}

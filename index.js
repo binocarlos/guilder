@@ -14,6 +14,9 @@ function runCopy(srcFolder, glob, destFolder, emitter, processPath, done){
 	if(typeof(glob)=='string'){
 		glob = [glob]
 	}
+	processPath = processPath || function(path){
+		return path
+	}
 	globby(glob, {
 		cwd:srcFolder
 	}, function(err, files){

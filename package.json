@@ -29,10 +29,11 @@
   },
   "dependencies": {
     "async": "^0.9.0",
-    "wrench": "^1.5.8",
     "componenter": "^0.0.3",
-    "imagemagickresizer": "^1.0.1",
+    "cp-file": "^0.1.1",
+    "ejs": "^1.0.0",
     "globby": "^0.1.1",
-    "cp-file": "^0.1.1"
+    "imagemagickresizer": "^1.0.1",
+    "wrench": "^1.5.8"
   }
 }

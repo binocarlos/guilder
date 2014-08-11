@@ -3,6 +3,7 @@ var util = require('util')
 var path = require('path')
 var async = require('async')
 var wrench = require('wrench')
+var ejs = require('ejs')
 var mergedirs = require('merge-dirs')
 var Componenter = require('componenter')
 var globby = require('globby')
@@ -88,6 +89,18 @@ Project.prototype.ensureFolder = function(autoRemove){
 	}
 }
 
+
+Project.prototype.template = function(src, target, data){
+	var self = this;
+	return function(next){
+		self.emit('log', 'write data: ' + target)
+		var targetPath = path.join(self._dest, target)
+		wrench.mkdirSyncRecursive(path.dirname(targetPath), true)
+		fs.writeFileSync(path.join(targetPath), data, 'utf8')
+		next()
+	}
+}
+
 Project.prototype.write = function(target, data){
 	var self = this;
 	return function(next){
@@ -95,6 +108,25 @@ Project.prototype.write = function(target, data){
 		var targetPath = path.join(self._dest, target)
 		wrench.mkdirSyncRecursive(path.dirname(targetPath), true)
 		fs.writeFileSync(path.join(targetPath), data, 'utf8')
+		next()
+	}
+}
+
+Project.prototype.template = function(src, target, data){
+	var self = this;
+	return function(next){
+		self.emit('log', 'render template: ' + src)
+
+		var srcPath = path.join(self._src, src)
+		var targetPath = path.join(self._dest, target)
+
+		var content = fs.readFileSync(srcPath, 'utf8')
+		var output = ejs.render(content, data || {})
+
+		self.emit('log', 'write data: ' + target)
+		wrench.mkdirSyncRecursive(path.dirname(targetPath), true)
+		fs.writeFileSync(path.join(targetPath), output, 'utf8')
+
 		next()
 	}
 }

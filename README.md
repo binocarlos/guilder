@@ -102,17 +102,17 @@ Proxy to [async.series](https://github.com/caolan/async#seriestasks-callback)
 
 Static version of copy where you can pass the source and destination folders explicitly
 
-#### `project.ensureFolder(path, autoRemove)`
+#### `project.ensureFolder(autoRemove)`
 
-Ensure a folder exists - autoRemove will delete if it exists
+Ensure the destination folder exists - autoRemove will delete if it exists
 
 #### `project.installComponent(autoReset)`
 
-Create the folder in the destination location - autoReset means delete if exists
+Install the component in the source folder - autoReset will remove the components folder before component install
 
 #### `project.buildComponent(autoReset)`
 
-Create the folder in the destination location - autoReset means delete if exists
+Build the component in the source folder - autoReset will remove the build folder before component build
 
 #### `project.copy(srcGlob, [processPath])`
 
@@ -143,17 +143,17 @@ project.resizeImages('img/**', '100x100', function(path){
 })
 ```
 
-#### `project.load(path)`
-
-Load a 'utf8' encoded text file to the file at source/[path]
-
-This is useful for loading templates and other text data from the source template
-
 #### `project.write(path, data)`
 
 Write a 'utf8' encoded text file to the file at dest/[path]
 
 This is useful for writing templates and other data
+
+
+#### `project.template(src, target, data)`
+
+Render an ejs template loaded from src (in the source folder) and using data, then write the output to target (in the destination folder)
+
 
 ## events
 

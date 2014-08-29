@@ -34,6 +34,7 @@
     "ejs": "^1.0.0",
     "globby": "^0.1.1",
     "imagemagickresizer": "^1.0.1",
+    "merge-dirs": "0.0.2",
     "wrench": "^1.5.8"
   }
 }

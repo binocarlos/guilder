@@ -190,7 +190,6 @@ Project.prototype.resizeImages = function(src, size, processPath){
 				// this is bad and blocking - upgrade will be nice to have async folder creation
 				// cli use means we can get away with it for now
 				wrench.mkdirSyncRecursive(folder, true)
-
 				resize.image(fileSrc, fileDest, size, nextFile)
 
 			}, next)

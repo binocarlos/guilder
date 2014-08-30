@@ -11,7 +11,7 @@ var fs = require('fs')
 var resize = require('imagemagickresizer')()
 var cpFile = require('cp-file')
 
-function runCopy(srcFolder, glob, destFolder, emitter, processPath, done){
+function runCopy(srcFolder, glob, destFolder, emitter, processPath, done, sync){
 	if(typeof(glob)=='string'){
 		glob = [glob]
 	}
@@ -33,7 +33,12 @@ function runCopy(srcFolder, glob, destFolder, emitter, processPath, done){
 			var fileSrc = path.join(srcFolder, file)
 			var fileDest = path.join(destFolder, processPath(file))
 
-			cpFile(fileSrc, fileDest, nextFile)
+			if(sync){
+				cpFile.sync(fileSrc, fileDest);
+				nextFile();
+			}else{
+				cpFile(fileSrc, fileDest, nextFile);
+			}
 
 		}, done)
 
@@ -41,11 +46,12 @@ function runCopy(srcFolder, glob, destFolder, emitter, processPath, done){
 }
 		
 
-function Project(src, dest){
-	if (!(this instanceof Project)) return new Project(src, dest)
+function Project(src, dest, sync){
+	if (!(this instanceof Project)) return new Project(src, dest, sync)
 	EventEmitter.call(this)
 	this._src = src
 	this._dest = dest
+	this._sync = sync
 }
 
 Project.series = async.series
@@ -139,7 +145,7 @@ Project.prototype.copy = function(glob, processPath){
 	return function(next){
 		runCopy(self._src, glob, self._dest, function(log){
 			self.emit('log', log)
-		}, processPath, next)
+		}, processPath, next, self._sync)
 	}
 }
 

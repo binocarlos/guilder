@@ -33,7 +33,12 @@ function runCopy(srcFolder, glob, destFolder, emitter, processPath, done){
 			var fileSrc = path.join(srcFolder, file)
 			var fileDest = path.join(destFolder, processPath(file))
 
-			cpFile(fileSrc, fileDest, nextFile)
+			if(this._sync){
+				cpFile.sync(fileSrc, fileDest);
+				nextFile();
+			}else{
+				cpFile.sync(fileSrc, fileDest, nextFile);
+			}
 
 		}, done)
 
@@ -41,11 +46,12 @@ function runCopy(srcFolder, glob, destFolder, emitter, processPath, done){
 }
 		
 
-function Project(src, dest){
-	if (!(this instanceof Project)) return new Project(src, dest)
+function Project(src, dest, sync){
+	if (!(this instanceof Project)) return new Project(src, dest, sync), 
 	EventEmitter.call(this)
 	this._src = src
 	this._dest = dest
+	this._sync = sync
 }
 
 Project.series = async.series
